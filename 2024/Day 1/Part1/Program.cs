@@ -33,13 +33,10 @@ internal static partial class Program
         list1.Sort();
         list2.Sort();
 
-        int accumulator=0;
-
-        while (list1.Any()) {
-            accumulator+=Math.Abs( list1.First()-list2.First());
-            list1.RemoveAt(0);
-            list2.RemoveAt(0);
-        }
+        var accumulator=list1
+            .Zip(list2, 
+                (number1, number2)=>Math.Abs(number1 - number2))
+            .Sum();
         Console.WriteLine($"The difference is {accumulator}");
     }
 }
