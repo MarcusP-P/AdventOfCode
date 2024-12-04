@@ -14,8 +14,7 @@ In this example, the calibration values are 29, 83, 13, 24, 42, 14, and 76. Addi
 
 */
 
-using (var sr = new StreamReader("dataset.txt"))
-{
+using (var sr = new StreamReader("dataset.txt")) {
     // We will go through each line and store the results in the accumulator
     var accumulator = 0;
 
@@ -23,8 +22,7 @@ using (var sr = new StreamReader("dataset.txt"))
     string? currentLine;
 
     // keep on going until we run out of lines
-    while ((currentLine = await sr.ReadLineAsync()) != null)
-    {
+    while ((currentLine = await sr.ReadLineAsync()) != null) {
         // Add the current line's values to what we already have.
         accumulator += getNumbersFromString(currentLine);
     }
@@ -34,8 +32,7 @@ using (var sr = new StreamReader("dataset.txt"))
 }
 
 // Gets the two digit number from the string, by getting the first and the last numeric character
-int getNumbersFromString(string source)
-{
+int getNumbersFromString(string source) {
     int firstDigit;
     int lastDigit;
 
@@ -79,25 +76,22 @@ int getNumbersFromString(string source)
 }
 
 // find and return the first number in an array of char
-int findFirstNumber(string source, Dictionary<string, int> names)
-{
+int findFirstNumber(string source, Dictionary<string, int> names) {
     //Remember the position of the current value, and what value it is
     int? position = null;
     int? value = null;
 
     // go through each character in the source array
-    foreach (var key in names.Keys)
-    {
+    foreach (var key in names.Keys) {
         // Look for the position of the current key
-        var currentPosition = source.IndexOf(key);
+        var currentPosition = source.IndexOf(key, StringComparison.Ordinal);
 
         // If we've found it
         if (currentPosition != -1
             // and we're before the previous position (or previous position is null)
-            && currentPosition <= (position ?? currentPosition))
-        {
-            position=currentPosition;
-            value=names[key];
+            && currentPosition <= (position ?? currentPosition)) {
+            position = currentPosition;
+            value = names[key];
         }
     }
 

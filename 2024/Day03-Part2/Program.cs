@@ -1,47 +1,43 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
-internal static partial class Program
-{
+internal static partial class Program {
     // look for a string of digits, followed by a equence of spaces, and another string of digits
     [GeneratedRegex(@"(?<instruction>(mul\((?<firstMult>\d{1,3}),(?<secondMult>\d{1,3})\)|do\(\)|don't\(\)))")]
     private static partial Regex lineRegex();
 
-
-    private static async Task Main(string[] args)
-    {
-        var accumulator=0;
+#pragma warning disable IDE0060 // Remove unused parameter
+    private static async Task Main(string[] args) {
+        var accumulator = 0;
 
         var input = File.ReadLinesAsync("input.txt", CancellationToken.None);
 
-        var enabled=true;
+        var enabled = true;
 
-        await foreach (var line in input)
-        {
-            if (!lineRegex().IsMatch(line))
-            {
+        await foreach (var line in input) {
+            if (!lineRegex().IsMatch(line)) {
                 Console.WriteLine($"Line: \"{line}\".");
                 continue;
             }
-            else
-            {
+            else {
                 var matches = lineRegex().Matches(line);
-                foreach (Match match in matches)
-                {
+                foreach (Match match in matches) {
                     switch (match.Groups["instruction"].Value) {
                         case "do()":
-                            enabled=true;
+                            enabled = true;
                             break;
                         case "don't()":
-                            enabled=false;
+                            enabled = false;
                             break;
                         default:
-                            accumulator += (enabled?1:0) * int.Parse(match.Groups["firstMult"].Value) * int.Parse(match.Groups["secondMult"].Value);
+                            accumulator += (enabled ? 1 : 0) * int.Parse(match.Groups["firstMult"].Value, CultureInfo.InvariantCulture) * int.Parse(match.Groups["secondMult"].Value, CultureInfo.InvariantCulture);
                             break;
                     }
-
                 }
             }
         }
+
         Console.WriteLine($"Sum of multiplications: {accumulator}");
     }
+#pragma warning restore IDE0060 // Remove unused parameter
 }
