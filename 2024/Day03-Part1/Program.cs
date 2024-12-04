@@ -3,7 +3,7 @@
 internal static partial class Program
 {
     // look for a string of digits, followed by a equence of spaces, and another string of digits
-    [GeneratedRegex(@"mul\((\d{1,3}),(\d{1,3})\)")]
+    [GeneratedRegex(@"mul\((?<firstMult>\d{1,3}),(?<secondMult>\d{1,3})\)")]
     private static partial Regex lineRegex();
 
 
@@ -27,7 +27,7 @@ internal static partial class Program
                 var matches = lineRegex().Matches(line);
                 foreach (Match match in matches)
                 {
-                    accumulator += int.Parse(match.Groups[1].Value) * int.Parse(match.Groups[2].Value);
+                    accumulator += int.Parse(match.Groups["firstMult"].Value) * int.Parse(match.Groups["secondMult"].Value);
                 }
             }
         }
