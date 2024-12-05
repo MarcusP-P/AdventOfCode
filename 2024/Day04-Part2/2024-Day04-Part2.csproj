@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AnalysisModeDesign>All</AnalysisModeDesign>
+    <AnalysisModeDocumentation>All</AnalysisModeDocumentation>
+    <AnalysisModeGlobalization>All</AnalysisModeGlobalization>
+    <AnalysisModeInteroperability>All</AnalysisModeInteroperability>
+    <AnalysisModeMaintainability>All</AnalysisModeMaintainability>
+    <AnalysisModeNaming>All</AnalysisModeNaming>
+    <AnalysisModePerformance>All</AnalysisModePerformance>
+    <AnalysisModeSingleFile>All</AnalysisModeSingleFile>
+    <AnalysisModeReliability>All</AnalysisModeReliability>
+    <AnalysisModeSecurity>All</AnalysisModeSecurity>
+    <AnalysisModeStyle>All</AnalysisModeStyle>
+    <AnalysisModeUsage>All</AnalysisModeUsage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="*.txt" CopyToOutputDirectory="Always" />
+  </ItemGroup>
+
+</Project>
