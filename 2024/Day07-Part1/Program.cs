@@ -27,10 +27,10 @@ internal static partial class Program {
                 // We only have two operations, so we jsut use a bit field 0=plus, 1=multiply
                 // use -2 rather than -1 becasue we 0 index, and then subtract a second one because we have 1 less
                 // operation than operands
-                for (var operations = 0L; operations <= (1 << (operands.Length - 1)) - 1; operations++) {
+                for (var operations = 0L; operations <= ((long)Math.Pow(2, operands.Length - 1)); operations++) {
                     var partialResult = operands[0];
                     for (var pos = 1; pos <= operands.Length - 1; pos++) {
-                        if ((operations & (1 << (pos - 1))) == 0) {
+                        if ((operations & ((long)Math.Pow(2, pos - 1))) == 0) {
                             partialResult += operands[pos];
                         }
                         else {
