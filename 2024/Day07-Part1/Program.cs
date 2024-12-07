@@ -29,12 +29,19 @@ internal static partial class Program {
                 // operation than operands
                 for (var operations = 0L; operations <= ((long)Math.Pow(2, operands.Length - 1)); operations++) {
                     var partialResult = operands[0];
+                    var remainingOperations = operations;
                     for (var pos = 1; pos <= operands.Length - 1; pos++) {
-                        if ((operations & ((long)Math.Pow(2, pos - 1))) == 0) {
-                            partialResult += operands[pos];
-                        }
-                        else {
-                            partialResult *= operands[pos];
+                        var currentOperation = remainingOperations % 2;
+                        remainingOperations = (remainingOperations - currentOperation) / 2;
+                        switch (currentOperation) {
+                            case 0:
+                                partialResult += operands[pos];
+                                break;
+                            case 1:
+                                partialResult *= operands[pos];
+                                break;
+                            default:
+                                throw new InvalidOperationException("We should not get here.");
                         }
                     }
 
