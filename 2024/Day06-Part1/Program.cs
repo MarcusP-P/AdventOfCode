@@ -15,9 +15,9 @@ internal static partial class Program {
 
 #pragma warning disable IDE0060 // Remove unused parameter
     private static async Task Main(string[] args) {
-        var lines = new List<char[]>();
+        var mapRows = new List<char[]>();
 
-        var steps = 1;
+        var path = new HashSet<Location> { };
 
         var direction = Direction.Up;
 
@@ -29,12 +29,12 @@ internal static partial class Program {
         // data first, then process it.
         await foreach (var line in input) {
             if (line.Length > 0) {
-                lines.Add(line.Trim().ToCharArray());
+                mapRows.Add(line.Trim().ToCharArray());
             }
 
             if (StartField().IsMatch(line)) {
                 var match = StartField().Match(line);
-                location = (lines.Count - 1, match.Index);
+                location = (mapRows.Count - 1, match.Index);
             }
         }
 
@@ -43,6 +43,7 @@ internal static partial class Program {
         }
 
         while (true) {
+            _ = path.Add(location);
             var target = direction! switch {
                 Direction.Up => new Location(location.row - 1, location.col),
                 Direction.Down => new Location(location.row + 1, location.col),
@@ -50,23 +51,19 @@ internal static partial class Program {
                 Direction.Left => new Location(location.row, location.col - 1),
                 _ => throw new InvalidDataException("Invalid direction"),
             };
-            if (target.row < 0 || target.col < 0 || target.row >= lines.Count || target.col >= lines[0].Length) {
+            if (target.row < 0 || target.col < 0 || target.row >= mapRows.Count || target.col >= mapRows[0].Length) {
                 break;
             }
 
-            if (lines[target.row][target.col] == '#') {
+            if (mapRows[target.row][target.col] == '#') {
                 direction = direction == Direction.Left ? Direction.Up : direction + 1;
             }
             else {
-                lines[location.row][location.col] = 'X';
                 location = target;
-                if (lines[location.row][location.col] != 'X') {
-                    steps++;
-                }
             }
         }
 
-        Console.WriteLine($"Steps taken: {steps}");
+        Console.WriteLine($"Steps taken: {path.Count}");
     }
 #pragma warning restore IDE0060 // Remove unused parameter
 }
