@@ -34,6 +34,7 @@ await foreach (var line in input) {
 
 foreach (var antennas in frequencyAntennas.Values) {
     var currentAntinodes = antennas
+        // Create a struct of an antenna, and all antennas not yet paired with it
         .Select(
             x => new {
                 Location = x,
@@ -42,15 +43,19 @@ foreach (var antennas in frequencyAntennas.Values) {
                     .Skip(1)
                     .Select(y => y),
             })
+        // Flatten the above lists, so we have all antennas and the gap between them
         .SelectMany(x => x.Pairings,
             (x, y) => (antenna1: x.Location,
                 antenna2: y,
                 difference: new Location(y.row - x.Location.row, y.col - x.Location.col)))
+        // Create a list of the two antinodes
         .Select(x => new List<Location> {
             new(x.antenna1.row-x.difference.row, x.antenna1.col-x.difference.col),
             new(x.antenna2.row+x.difference.row, x.antenna2.col+x.difference.col),
         })
+        // flatten the list into a single list
         .SelectMany(x => x)
+        // remove any invalidt nodes outside the map
         .Where(x => x.row >= 0 && x.row <= currentRow && x.col >= 0 && x.col <= currentCol);
     antinodes = antinodes.Union(currentAntinodes).ToHashSet();
 }
